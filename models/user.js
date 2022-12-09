@@ -7,7 +7,8 @@ const userSchema = mongoose.Schema({
     taskTitle:String,
     taskDesc:String,
     status:String,
+    priority:String,
     reminder:Date
 })
 
-module.exports = mongoose.model('Tasks',userSchema);
+module.exports = mongoose.model('tasks',userSchema);

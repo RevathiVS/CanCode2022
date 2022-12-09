@@ -14,7 +14,7 @@
 
 <body>
   <div id="myDIV" class="header">
-    <h2>What are you doing today?</h2>
+    <h2>What's Up for today?</h2>
     <select id="userId" aria-placeholder="User" class="userInput">
       <option disabled selected>Select User</option>
       <option>Pradipan</option>
@@ -23,6 +23,7 @@
     </select>
     <input type="date" name="" id="date" class="userInput">
     <input type="text" id="taskTitle" placeholder="Title..." class="userInput">
+   
     <input type="text" id="taskDesc" placeholder="Description" class="userInput">
     <select id="status" class="userInput">
       <option disabled selected>Select Status</option>
@@ -30,9 +31,17 @@
       <option>In Progress</option>
       <option>Completed</option>
     </select>
+    <select id="priority" class="userInput">
+      <option disabled selected>Select Priority</option>
+      <option>High</option>
+      <option>Medium</option>
+      <option>Low</option>
+    </select>
     <input type="text" placeholder="Complete by..." onfocus="(this.type='datetime-local')" name="" id="reminder"
       class="userInput">
     <button id="addBtn">Add Task</button>
+    
+    
 
   </div>
 
@@ -118,6 +127,7 @@
       var title = document.getElementById("taskTitle").value;
       var description = document.getElementById("taskDesc").value;
       var status = document.getElementById("status").value;
+      var priority = document.getElementById("priority").value;
       var reminder = document.getElementById("reminder").value;
 
       var data = {
@@ -127,6 +137,7 @@
         "taskTitle": title,
         "taskDesc": description,
         "status": status,
+        "priority": priority,
         "reminder": reminder
       };
       console.log(data);
@@ -164,6 +175,7 @@
             var spanTaskTitle = document.createElement("span");
             var inputTaskTitle = document.createElement("input")
             inputTaskTitle.setAttribute("type","text");
+            inputTaskTitle.setAttribute("class",taskDetails[i]._id);
             inputTaskTitle.value=taskDetails[i].taskTitle;
             spanTaskTitle.appendChild(inputTaskTitle);
             divTaskRow.appendChild(spanTaskTitle);
@@ -172,6 +184,7 @@
             var spanTaskDesc = document.createElement("span");
             var inputTaskDesc = document.createElement("input")
             inputTaskDesc.setAttribute("type","text");
+            inputTaskDesc.setAttribute("class",taskDetails[i]._id);
             inputTaskDesc.value=taskDetails[i].taskDesc;
             spanTaskDesc.appendChild(inputTaskDesc);
             divTaskRow.appendChild(spanTaskDesc);
@@ -180,6 +193,7 @@
             var spanDate = document.createElement("span");
             var inputDate = document.createElement("input")
             inputDate.setAttribute("type","text");
+            inputDate.setAttribute("class",taskDetails[i]._id);
             inputDate.value=taskDetails[i].date;
             spanDate.appendChild(inputDate);
             divTaskRow.appendChild(spanDate);
@@ -188,6 +202,7 @@
             var spanUserId = document.createElement("span");
             var inputUserId = document.createElement("input")
             inputUserId.setAttribute("type","text");
+            inputUserId.setAttribute("class",taskDetails[i]._id);
             inputUserId.value=taskDetails[i].userId;
             spanUserId.appendChild(inputUserId);
             divTaskRow.appendChild(spanUserId);
@@ -196,14 +211,25 @@
             var spanStatus = document.createElement("span");
             var inputStatus = document.createElement("input")
             inputStatus.setAttribute("type","text");
+            inputStatus.setAttribute("class",taskDetails[i]._id);
             inputStatus.value=taskDetails[i].status;
             spanStatus.appendChild(inputStatus);
             divTaskRow.appendChild(spanStatus);
+
+             //Priority
+             var spanPriority = document.createElement("span");
+            var inputPriority = document.createElement("input")
+            inputPriority.setAttribute("type","text");
+            inputPriority.setAttribute("class",taskDetails[i]._id);
+            inputPriority.value=taskDetails[i].priority;
+            spanPriority.appendChild(inputPriority);
+            divTaskRow.appendChild(spanPriority);
 
             //reminder
             var spanCompleteBy = document.createElement("span");
             var inputCompleteBy = document.createElement("input")
             inputCompleteBy.setAttribute("type","text");
+            inputCompleteBy.setAttribute("class",taskDetails[i]._id);
             inputCompleteBy.value=taskDetails[i].reminder;
             spanCompleteBy.appendChild(inputCompleteBy);
             divTaskRow.appendChild(spanCompleteBy);
@@ -213,6 +239,7 @@
             var btnView = document.createElement("button");
             btnView.setAttribute("class","fa fa-eye","viewAndDelete");
             btnView.setAttribute("id","viewIcon");
+            btnView.setAttribute("class",taskDetails[i]._id);
             btnView.value="View"
             spanView.appendChild(btnView);
             divTaskRow.appendChild(spanView);
@@ -222,9 +249,12 @@
             var btnDelete = document.createElement("button");
             btnDelete.setAttribute("class","fa fa-trash","viewAndDelete");
             btnDelete.setAttribute("id","deleteIcon");
+            btnDelete.setAttribute("class",taskDetails[i]._id);
             btnDelete.value="View"
             spanDelete.appendChild(btnDelete);
             divTaskRow.appendChild(spanDelete);
+
+            
 
 
 

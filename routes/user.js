@@ -6,7 +6,7 @@ const mongoUserSchema = require('../models/user');
 const mustache = require('mustache');
 
 router.get('/',async (req,res)=>{
-    res.render('index');
+    res.render('startPage');
 });
 
 router.post('/addtask',(req,res)=>{
@@ -73,7 +73,10 @@ const upsertToUserDb = async (searchQuery,upsertData) =>{
 const fetchRecordByUserId = async (searchParameter) =>{
     var dbResult="NONE";
     await mongo().then(async (mongoose)=>{
-        
+        console.log(mongoUserSchema.db.host); // localhost
+console.log(mongoUserSchema.db.port); // 27017
+console.log(mongoUserSchema.db.name);
+console.log(mongoUserSchema.collection.collectionName);
         try{
             console.log("connected to MongoDB");
             console.log(searchParameter);
