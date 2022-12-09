@@ -46,7 +46,7 @@ const options = {
 app.use(cors());
 
 //Config routes
-app.use('/user',user);
+app.use('/task',user);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

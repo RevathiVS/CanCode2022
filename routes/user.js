@@ -3,10 +3,29 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const mongo = require('./mongo');
 const mongoUserSchema = require('../models/user');
+const mustache = require('mustache');
+
+router.get('/',async (req,res)=>{
+    res.render('index');
+});
+
+router.post('/addtask',(req,res)=>{
+    var data = req.body;
+    console.log("In Post Method, data=%j",data);
+    insertToUserDb(data);
+    res.json({message:'success'});
+});
 
 router.get('/getUserDetailsById/:userId',async (req,res)=>{
     var userId = req.params.userId;
-    var dbResult = await fetchRecordByUserId(userId);
+    var dbResult = await fetchRecordByUserId({userId : userId});
+    console.log("Returned to GET%j",dbResult)
+    res.json({message:'success',data:dbResult});
+});
+
+router.get('/getTaskDetailsByDate/:date',async (req,res)=>{
+    var date = req.params.date;
+    var dbResult = await fetchRecordByUserId({date : date});
     console.log("Returned to GET%j",dbResult)
     res.json({message:'success',data:dbResult});
 });
@@ -57,7 +76,8 @@ const fetchRecordByUserId = async (searchParameter) =>{
         
         try{
             console.log("connected to MongoDB");
-            await mongoUserSchema.find({"userId" : searchParameter}).then( (docs)=> {
+            console.log(searchParameter);
+            await mongoUserSchema.find(searchParameter).then( (docs)=> {
                 //console.log("First function call : ", docs);
                 dbResult = docs;
             });

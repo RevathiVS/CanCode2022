@@ -5,30 +5,239 @@
   <meta charset="UTF-8">
   <meta name="viewport"
     content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/skelton/normalize.css">
   <link rel="stylesheet" href="css/skelton/skeleton.css">
   <link rel="stylesheet" href="css/index.css">
-  <title>Hello World!</title>
   <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.js"></script>
-  <script src="audio/p5.sound.js"></script>
 </head>
 
 <body>
-  <div class="">
-    <div class="row">
-      <!-- <img src="app_bg/ironman_left_side.jpg" class="side-panel-img" alt=""> -->
-      <img class="starklogo" src="app_bg/starklogo.png" alt="" srcset="">
-      <div class="twelve columns">
-        <div class="center-piece-wrappper">
-          <p class="arc-reactor-image-wrapper"><img class="arc-reactor-image" src="app_bg/arc_reactor_cropped.gif"
-              alt=""></p>
-          <p class="voice-image-wrapper"><img id="voice-image" class="voice-image" src="app_bg/voice_overlay_img.gif"
-              alt=""></p>
-        </div>
-      </div>
+  <div id="myDIV" class="header">
+    <h2>What are you doing today?</h2>
+    <select id="userId" aria-placeholder="User" class="userInput">
+      <option disabled selected>Select User</option>
+      <option>Pradipan</option>
+      <option>Revathi</option>
+      <option>Venkat</option>
+    </select>
+    <input type="date" name="" id="date" class="userInput">
+    <input type="text" id="taskTitle" placeholder="Title..." class="userInput">
+    <input type="text" id="taskDesc" placeholder="Description" class="userInput">
+    <select id="status" class="userInput">
+      <option disabled selected>Select Status</option>
+      <option>Not Started</option>
+      <option>In Progress</option>
+      <option>Completed</option>
+    </select>
+    <input type="text" placeholder="Complete by..." onfocus="(this.type='datetime-local')" name="" id="reminder"
+      class="userInput">
+    <button id="addBtn">Add Task</button>
+
+  </div>
+
+  <ul id="myUL">
+
+  </ul>
+  <div id="displaytaskwrapper">
+    <div class="taskrow">
+      <!--<span><input type="text" class="-taskTitle" placeholder="Title..."></span>
+      <span><input type="text" class="-taskDesc" placeholder="Description"></span>
+      <span><input type="date" name="" class="-date"></span>
+      <span>
+        <select class="-userId">
+          <option>Pradipan</option>
+          <option>Revathi</option>
+          <option>Venkat</option>
+        </select>
+      </span>
+      <span>
+        <select class="-status">
+          <option>Not Started</option>
+          <option>In Progress</option>
+          <option>Completed</option>
+        </select>
+      </span>
+      <span> <input type="datetime-local" name="" class="-reminder"></span>
+      <span><button id="viewIcon" class="fa fa-eye"></button></span>
+      <span><button id="deleteIcon" class="fa fa-trash"></button></span> -->
+
     </div>
   </div>
-  <script src="audio/sketch.js"></script>
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Some text in the Modal..</p>
+    </div>
+
+  </div>
+
+
+
+  <!--Modal-->
+  <script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("viewIcon");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function () {
+      modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+  <!------------------->
+
+
+  <script>
+    populateTaskDetails();
+    var addTaskBtn = document.getElementById("addBtn");
+    addTaskBtn.addEventListener("click", function () {
+      alert("click");
+      var userId = document.getElementById("userId").value;
+      var date = document.getElementById("date").value;
+      var title = document.getElementById("taskTitle").value;
+      var description = document.getElementById("taskDesc").value;
+      var status = document.getElementById("status").value;
+      var reminder = document.getElementById("reminder").value;
+
+      var data = {
+        "userId": userId,
+        "date": date,
+        "taskId": "",
+        "taskTitle": title,
+        "taskDesc": description,
+        "status": status,
+        "reminder": reminder
+      };
+      console.log(data);
+      fetch('http://127.0.0.1:8888/task/addTask', {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: new Headers({
+          'Content-Type': 'application/json'
+        })
+      })
+        .then(res => (res.json()))
+        .then(data => {
+          console.log(data);
+          populateTaskDetails();
+        })
+    })
+    function populateTaskDetails() {
+      var date = new Date().toLocaleDateString('en-CA')
+      fetch('http://127.0.0.1:8888/task/getTaskDetailsByDate/' + date, {
+        method: 'get',
+        headers: new Headers({
+          'Content-Type': 'application/json'
+        })
+      })
+        .then(res => (res.json()))
+        .then(data => {
+          var taskDetails = data.data;
+          var displaytaskwrapper = document.getElementById("displaytaskwrapper");
+          //displaytaskwrapper.innerHTML="";
+          for (let i = 0; i < taskDetails.length; i++) {
+            alert(taskDetails[i].taskTitle);
+            var divTaskRow = document.createElement("div")
+            divTaskRow.className="taskrow";
+            //task title
+            var spanTaskTitle = document.createElement("span");
+            var inputTaskTitle = document.createElement("input")
+            inputTaskTitle.setAttribute("type","text");
+            inputTaskTitle.value=taskDetails[i].taskTitle;
+            spanTaskTitle.appendChild(inputTaskTitle);
+            divTaskRow.appendChild(spanTaskTitle);
+
+            //task Desc
+            var spanTaskDesc = document.createElement("span");
+            var inputTaskDesc = document.createElement("input")
+            inputTaskDesc.setAttribute("type","text");
+            inputTaskDesc.value=taskDetails[i].taskDesc;
+            spanTaskDesc.appendChild(inputTaskDesc);
+            divTaskRow.appendChild(spanTaskDesc);
+            
+            //date
+            var spanDate = document.createElement("span");
+            var inputDate = document.createElement("input")
+            inputDate.setAttribute("type","text");
+            inputDate.value=taskDetails[i].date;
+            spanDate.appendChild(inputDate);
+            divTaskRow.appendChild(spanDate);
+
+            //User
+            var spanUserId = document.createElement("span");
+            var inputUserId = document.createElement("input")
+            inputUserId.setAttribute("type","text");
+            inputUserId.value=taskDetails[i].userId;
+            spanUserId.appendChild(inputUserId);
+            divTaskRow.appendChild(spanUserId);
+
+            //Status
+            var spanStatus = document.createElement("span");
+            var inputStatus = document.createElement("input")
+            inputStatus.setAttribute("type","text");
+            inputStatus.value=taskDetails[i].status;
+            spanStatus.appendChild(inputStatus);
+            divTaskRow.appendChild(spanStatus);
+
+            //reminder
+            var spanCompleteBy = document.createElement("span");
+            var inputCompleteBy = document.createElement("input")
+            inputCompleteBy.setAttribute("type","text");
+            inputCompleteBy.value=taskDetails[i].reminder;
+            spanCompleteBy.appendChild(inputCompleteBy);
+            divTaskRow.appendChild(spanCompleteBy);
+
+            //view
+            var spanView = document.createElement("span");
+            var btnView = document.createElement("button");
+            btnView.setAttribute("class","fa fa-eye","viewAndDelete");
+            btnView.setAttribute("id","viewIcon");
+            btnView.value="View"
+            spanView.appendChild(btnView);
+            divTaskRow.appendChild(spanView);
+
+            //delete
+            var spanDelete = document.createElement("span");
+            var btnDelete = document.createElement("button");
+            btnDelete.setAttribute("class","fa fa-trash","viewAndDelete");
+            btnDelete.setAttribute("id","deleteIcon");
+            btnDelete.value="View"
+            spanDelete.appendChild(btnDelete);
+            divTaskRow.appendChild(spanDelete);
+
+
+
+
+
+            displaytaskwrapper.appendChild(divTaskRow);
+          }
+        })
+
+
+    }
+
+  </script>
 </body>
 
 </html>

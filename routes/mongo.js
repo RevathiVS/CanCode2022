@@ -1,5 +1,5 @@
 const mongoose =  require("mongoose");
-const mongoConnectionString = "mongodb://localhost:27017/User";
+const mongoConnectionString = "mongodb://localhost:27017/tasktracker";
 
 module.exports= async()=>{
     await mongoose.connect(mongoConnectionString,{

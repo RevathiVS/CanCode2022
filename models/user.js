@@ -1,10 +1,13 @@
 const { json } = require("express");
 const mongoose = require("mongoose");
 const userSchema = mongoose.Schema({
-    environment:String,
     userId:String,
-    userName:String,
-    currentDateTime:String
+    date:Date,
+    taskId:String,
+    taskTitle:String,
+    taskDesc:String,
+    status:String,
+    reminder:Date
 })
 
-module.exports = mongoose.model('users',userSchema);
+module.exports = mongoose.model('Tasks',userSchema);
