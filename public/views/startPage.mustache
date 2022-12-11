@@ -8,19 +8,20 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/skelton/normalize.css">
   <link rel="stylesheet" href="css/skelton/skeleton.css">
-  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="../css/startPage.css">
   <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.js"></script>
 </head>
 
 <body>
   <div id="myDIV" class="header">
     <h2>Daily Activity Management</h2>
-    
-   <form action = "http://127.0.0.1:8888/task/addTask" method="get">
+
+    <form action = "http://127.0.0.1:8888/task/addNewTask" method="get">
     <button id="addBtn">Add Task</button>
    </form>
-    
+<form action  ="http://127.0.0.1:8888/task/viewMyTasks" method="get">
     <button id="viewTsk">View Task</button>
+  </form>
     
     
 
@@ -68,6 +69,7 @@
       }
     }
   </script>
+  
   <!------------------->
 
 

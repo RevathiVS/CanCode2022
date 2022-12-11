@@ -9,6 +9,15 @@ router.get('/',async (req,res)=>{
     res.render('startPage');
 });
 
+router.get('/addNewTask',async (req,res)=>{
+    res.render('index');
+});
+
+router.get('/viewMyTasks',async (req,res)=>{
+    res.render('viewMyTasks');
+});
+
+
 router.post('/addtask',(req,res)=>{
     var data = req.body;
     console.log("In Post Method, data=%j",data);
