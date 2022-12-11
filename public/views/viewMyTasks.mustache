@@ -53,9 +53,6 @@
  
 
 
-  
-  <!------------------->
-
 
   <script>
     var viewMyTaskBtn = document.getElementById("viewTaskBtn");
@@ -146,30 +143,39 @@
             //view
             var spanView = document.createElement("span");
             var btnView = document.createElement("button");
-            btnView.setAttribute("class","fa fa-eye","viewAndDelete");
+            var viewtxt = document.createTextNode("viewAndEdit");
+            btnView.setAttribute("class","fa fa-eye","viewAndEdit");
+            btnView.setAttribute("text","viewAndEdit");
+           
             btnView.setAttribute("id","viewIcon");
-            btnView.setAttribute("class",taskDetails[i]._id);
+            
             btnView.value="View"
             spanView.appendChild(btnView);
             divTaskRow.appendChild(spanView);
+            btnView.appendChild(viewtxt);
+
 
             //delete
             var spanDelete = document.createElement("span");
             var btnDelete = document.createElement("button");
-            btnDelete.setAttribute("class","fa fa-trash","viewAndDelete");
+            var deletetxt = document.createTextNode("Delete");
+
+            btnDelete.setAttribute("class","fa fa-trash","Delete");
             btnDelete.setAttribute("id","deleteIcon");
-            btnDelete.setAttribute("class",taskDetails[i]._id);
-            btnDelete.value="View"
+            
+           
+            btnDelete.value="Delete"
             spanDelete.appendChild(btnDelete);
             divTaskRow.appendChild(spanDelete);
-
+            btnDelete.appendChild(deletetxt);
+            displaytaskwrapper.appendChild(divTaskRow);
             
 
 
 
 
 
-            displaytaskwrapper.appendChild(divTaskRow);
+           
           }
         })
 
