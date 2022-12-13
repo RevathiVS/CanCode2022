@@ -13,9 +13,9 @@
 </head>
 
 <body>
-  <div id="myDIV" class="header">
+  <form id="myDIV" class="header">
     <h2>What's Up for today?</h2>
-    <form>
+  <div>
     <select id="userId" aria-placeholder="User" class="userInput" required>
       <option disabled selected>Select User</option>
       <option>Pradipan</option>
@@ -41,15 +41,11 @@
     <input type="text" placeholder="Complete by..." onfocus="(this.type='datetime-local')" name="" id="reminder"
       class="userInput" required>
     <button id="addBtn">Add Task</button>
+  </div>
   </form>
-    
 
   </div>
-
-  <ul id="myUL">
-
-  </ul>
-  <div id="displaytaskwrapper">
+  <div id="displaytaskwrapper" >
     <div class="taskrow">
       <!--<span><input type="text" class="-taskTitle" placeholder="Title..."></span>
       <span><input type="text" class="-taskDesc" placeholder="Description"></span>
@@ -74,6 +70,7 @@
 
     </div>
   </div>
+
   <!-- The Modal -->
   <div id="myModal" class="modal">
 
@@ -169,7 +166,6 @@
           var displaytaskwrapper = document.getElementById("displaytaskwrapper");
           //displaytaskwrapper.innerHTML="";
           for (let i = 0; i < taskDetails.length; i++) {
-            alert(taskDetails[i].taskTitle);
             var divTaskRow = document.createElement("div")
             divTaskRow.className="taskrow";
             //task title

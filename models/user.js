@@ -1,6 +1,7 @@
 const { json } = require("express");
 const mongoose = require("mongoose");
 const userSchema = mongoose.Schema({
+    _id:String,
     userId:String,
     date:Date,
     taskId:String,

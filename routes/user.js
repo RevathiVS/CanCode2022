@@ -39,6 +39,12 @@ router.get('/getTaskDetailsByDate/:date',async (req,res)=>{
     res.json({message:'success',data:dbResult});
 });
 
+router.get('/deleteTaskWithId/:id',async (req,res)=>{
+    var id = req.params.id;
+    var dbResult = await deleteDocFromDB({_id : id});
+    console.log("Returned to GET%j",dbResult);
+    res.json({message:'success',data:dbResult});
+});
 
 
 router.post('/addUser',(req,res)=>{
@@ -80,6 +86,20 @@ const upsertToUserDb = async (searchQuery,upsertData) =>{
         }
     })
     }
+
+    const deleteDocFromDB = async (id) =>{
+        await mongo().then(async (mongoose)=>{
+            try{
+                console.log("connected to MongoDB");
+                await mongoUserSchema.deleteOne({"_id" : id});
+                console.log("Data Deleted from mongo DB Successfully");
+            }catch(e){
+                console.log("Exception = "+e.message);
+            }finally{
+                mongoose.connection.close();
+            }
+        })
+        }
 
 const fetchRecordByUserId = async (searchParameter) =>{
     var dbResult="NONE";
