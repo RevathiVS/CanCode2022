@@ -41,7 +41,7 @@ router.get('/getTaskDetailsByDate/:date',async (req,res)=>{
 
 router.get('/deleteTaskWithId/:id',async (req,res)=>{
     var id = req.params.id;
-    var dbResult = await deleteDocFromDB({_id : id});
+    var dbResult = await deleteTaskFromDb(id);
     console.log("Returned to GET%j",dbResult);
     res.json({message:'success',data:dbResult});
 });
@@ -91,7 +91,8 @@ const upsertToUserDb = async (searchQuery,upsertData) =>{
         await mongo().then(async (mongoose)=>{
             try{
                 console.log("connected to MongoDB");
-                await mongoUserSchema.deleteOne({"_id" : id});
+                await mongoUserSchema.findByIdAndDelete(id);
+                console.log({_id : id});
                 console.log("Data Deleted from mongo DB Successfully");
             }catch(e){
                 console.log("Exception = "+e.message);
@@ -127,6 +128,28 @@ console.log("Returning dbRes,%j",dbResult);
     return dbResult;
     
     }
+
+  
+const deleteTaskFromDb = async (data) =>{
+        await mongo().then(async (mongoose)=>{
+            try{
+                console.log("connected to MongoDB");
+                console.log("'"+data+"'");
+                await mongoUserSchema.deleteOne({"_id" : data}).then( (docs)=> {
+                    //console.log("First function call : ", docs);
+                    dbResult = docs;
+                });
+                console.log("Data Deleted from mongo DB Successfully");
+            }catch(e){
+                console.log("Exception in DB Find "+e.message);
+            }finally{
+                console.log("closing db connection");
+                mongoose.connection.close();
+            }
+        })
+        }
+
+          //db.tasks.remove({ "_id" : ObjectId("6398c2ae3e98a94f300ed777")})
 
 
 module.exports = router

@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="../css/skelton/normalize.css">
     <link rel="stylesheet" href="../css/skelton/skeleton.css">
     <link rel="stylesheet" href="../css/viewTaskPage.css">
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.js"></script>
 </head>
 
 <body>
@@ -18,6 +17,7 @@
         <div>
             <span id="userDrpDwn">
                 <select id="myUserId" class="userInput" name="myUser" onchange="populateTaskDetailsByUserId()">
+                    <option disabled selected>Select User</option>
                     <option value="Revathi">Revathi</option>
                     <option value="Pradipan">Pradipan</option>
                     <option value="Venkat">Venkat</option>
@@ -53,14 +53,40 @@
         </div>
     </div>
 
+   <!-- Trigger/Open The Modal -->
+<button id="myBtn">Open Modal</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Some text in the Modal..</p>
+  </div>
+
+</div>
+
 
 
 
     <script>
-        var viewMyTaskBtn = document.getElementById("viewTaskBtn");
-        viewMyTaskBtn.addEventListener("click", populateTaskDetailsByUserId());
-        function populateTaskDetailsByUserId() {
-            displaytaskwrapper.innerHTML = "";
+        /*****DELETE FUNCTIONALITY*******/
+                   
+        function dbDeleteDoc(taskId) {
+                            console.log("entered dbDeleteDoc function");
+                            console.log(taskId);
+                            fetch('http://127.0.0.1:8888/task/deleteTaskWithId/' + taskId, {
+                                method: 'get',
+                                headers: new Headers({
+                                    'Content-Type': 'application/json'
+                                })
+                            })
+
+                        }
+
+         function populateTaskDetailsByUserId() {
+            //displaytaskwrapper.innerHTML = "";
             var myUserId = document.getElementById("myUserId").value;
 
             console.log(myUserId);
@@ -72,9 +98,11 @@
             })
                 .then(res => (res.json()))
                 .then(data => {
+
+
                     var taskDetails = data.data;
                     var displaytaskwrapper = document.getElementById("displaytaskwrapper");
-                    //displaytaskwrapper.innerHTML="";
+                    displaytaskwrapper.innerHTML="";
                     for (let i = 0; i < taskDetails.length; i++) {
                         alert(taskDetails[i].taskTitle);
                         var divTaskRow = document.createElement("div")
@@ -84,6 +112,7 @@
                         var inputTaskTitle = document.createElement("input")
                         inputTaskTitle.setAttribute("type", "text");
                         inputTaskTitle.setAttribute("class", taskDetails[i]._id);
+                        inputTaskTitle.setAttribute("id", taskDetails[i]._id+"-title");
                         inputTaskTitle.value = taskDetails[i].taskTitle;
                         spanTaskTitle.appendChild(inputTaskTitle);
                         divTaskRow.appendChild(spanTaskTitle);
@@ -163,19 +192,18 @@
                         var btnDelete = document.createElement("button");
                         var deletetxt = document.createTextNode("Delete");
 
-                        btnDelete.setAttribute("class", "fa fa-trash", "Delete");
+                        btnDelete.setAttribute("class", "fa fa-trash");
                         console.log(taskDetails[i]._id)
-                        inputCompleteBy.setAttribute("id", taskDetails[i]._id);
-                
+                        btnDelete.setAttribute("id", taskDetails[i]._id);
+                        btnDelete.setAttribute("Name", "Delete");
+                        btnDelete.setAttribute("onclick", "dbDeleteDoc('"+taskDetails[i]._id+"')");
+                        btnDelete.setAttribute("mongoid",taskDetails[i]._id);
                         btnDelete.value = "Delete"
                         spanDelete.appendChild(btnDelete);
                         divTaskRow.appendChild(spanDelete);
                         btnDelete.appendChild(deletetxt);
                         displaytaskwrapper.appendChild(divTaskRow);
-
-                        var deleteButton = document.getElementById(taskDetails[i]._id);
-                    
-                    deleteButton.addEventListener("click", dbDeleteDoc(taskDetails[i]._id));
+                        console.log("task id = " + btnDelete.id);
 
 
 
@@ -184,53 +212,28 @@
 
 
                     }
-                })
-
-
-        }
-        function dbDeleteDoc(id){
-            
-                        alert(id);
-                        fetch('http://127.0.0.1:8888/task/deleteTaskWithId/' + id, {
-                            method: 'get',
-                            headers: new Headers({
-                                'Content-Type': 'application/json'
-                            })
-                        })
+                });
                     
+
+                    ///////////////////////
+
+             
+
+                    
+
+
+
+
         }
 
-        /* var myUserId = document.getElementById("myUserId").value;
 
-        console.log(myUserId);
-        fetch('http://127.0.0.1:8888/task/getUserDetailsById/' + myUserId, {
-            method: 'get',
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            })
-        })
-            .then(res => (res.json()))
-            .then(data => {
-                var taskDetails = data.data;
-                for (let i = 0; i < taskDetails.length; i++) {
-                    var id = taskDetails[i]._id;
-                    var deleteButton = document.getElementById(id);
-                    try{
-                    deleteButton.addEventListener("click", function () {
-                        alert(id);
-                        fetch('http://127.0.0.1:8888/task/deleteTaskWithId/' + id, {
-                            method: 'get',
-                            headers: new Headers({
-                                'Content-Type': 'application/json'
-                            })
-                        })
-                    });
-                }catch(e){
-                  console.log(e.message)
-                }
+        //////////////////////////////
 
-                }
-            }) */
+      
+     
+
+       /////////////////////////
+
 
 
     </script>
