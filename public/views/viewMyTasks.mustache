@@ -53,8 +53,7 @@
         </div>
     </div>
 
-   <!-- Trigger/Open The Modal -->
-<button id="myBtn">Open Modal</button>
+   
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
@@ -62,7 +61,15 @@
   <!-- Modal content -->
   <div class="modal-content">
     <span class="close">&times;</span>
-    <p>Some text in the Modal..</p>
+    <ul>
+        <li><label>Task Title: </label><input type="text" id="modelTaskTitle"></li>
+        <li><label>Task Description: </label><input type="text" id="modelTaskDesc"></li>
+        <li><label>Date Added: </label><input type="text" id="modelTaskDate"></li>
+        <li><label>Task Owner: </label><input type="text" id="modelTaskOwner"></li>
+        <li><label>Task Status: </label><input type="text" id="modelTaskStatus"></li>
+        <li><label>Priority: </label><input type="text" id="modelTaskPriority"></li>
+        <li><label>Complete by: </label><input type="text" id="modelTaskCompleteBy"></li>
+      </ul>  
   </div>
 
 </div>
@@ -72,6 +79,10 @@
 
     <script>
         /*****DELETE FUNCTIONALITY*******/
+
+        var modal = document.getElementById("myModal");
+        // Get the <span> element that closes the modal
+            var spanClose = document.getElementsByClassName("close")[0];
                    
         function dbDeleteDoc(taskId) {
                             console.log("entered dbDeleteDoc function");
@@ -178,7 +189,7 @@
                         btnView.setAttribute("class", "fa fa-eye", "viewAndEdit");
                         inputCompleteBy.setAttribute("class", taskDetails[i]._id);
                         btnView.setAttribute("text", "viewAndEdit");
-
+                        btnView.setAttribute("onclick","displayModel()")
                         btnView.setAttribute("id", "viewIcon");
 
                         btnView.value = "View"
@@ -228,9 +239,20 @@
 
 
         //////////////////////////////
+      function displayModel(){
+        modal.style.display = "block";
+      }
+      // When the user clicks on <span> (x), close the modal
+        spanClose.onclick = function () {
+            modal.style.display = "none";
+        }
 
-      
-     
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
 
        /////////////////////////
 
