@@ -25,6 +25,15 @@ router.post('/addtask',(req,res)=>{
     res.json({message:'success'});
 });
 
+router.post('/userttask',(req,res)=>{
+    var data = req.body;
+    var id = data.taskId;
+    console.log(id);
+  console.log("In Post Method, data=%j",data);
+    upsertToUserDb(data,id);
+    res.json({message:'success'});
+});
+
 router.get('/getUserDetailsById/:userId',async (req,res)=>{
     var userId = req.params.userId;
     var dbResult = await fetchRecordByUserId({userId : userId});
@@ -73,11 +82,11 @@ await mongo().then(async (mongoose)=>{
 })
 }
 
-const upsertToUserDb = async (searchQuery,upsertData) =>{
+const upsertToUserDb = async (upsertData,id) =>{
     await mongo().then(async (mongoose)=>{
         try{
             console.log("connected to MongoDB");
-            await mongoUserSchema.findOneAndUpdate({"userId" : "user01"},upsertData,{upsert: true});
+            await mongoUserSchema.findOneAndUpdate({"_id" : id},upsertData,{upsert: true});
             console.log("Data Updated to mongo DB Successfully");
         }catch(e){
             console.log("Exception = "+e.message);

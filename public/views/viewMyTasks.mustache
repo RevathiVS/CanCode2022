@@ -62,13 +62,20 @@
   <div class="modal-content">
     <span class="close">&times;</span>
     <ul>
+        <li><label>Task Id: </label><input type="text" id="modelTaskId"/></li>
         <li><label>Task Title: </label><input type="text" id="modelTaskTitle"></li>
         <li><label>Task Description: </label><input type="text" id="modelTaskDesc"></li>
         <li><label>Date Added: </label><input type="text" id="modelTaskDate"></li>
-        <li><label>Task Owner: </label><input type="text" id="modelTaskOwner"></li>
+        <li><label>Task Owner: </label><select id="modelTaskOwner">
+            <option disabled selected>Select User</option>
+            <option value="Revathi">Revathi</option>
+            <option value="Pradipan">Pradipan</option>
+            <option value="Venkat">Venkat</option></select>
+        </li>
         <li><label>Task Status: </label><input type="text" id="modelTaskStatus"></li>
         <li><label>Priority: </label><input type="text" id="modelTaskPriority"></li>
         <li><label>Complete by: </label><input type="text" id="modelTaskCompleteBy"></li>
+        <button id="saveChanges">Save</button>
       </ul>  
   </div>
 
@@ -79,6 +86,40 @@
 
     <script>
         /*****DELETE FUNCTIONALITY*******/
+        saveChanges.addEventListener("click", function () {
+      alert("click");
+      var taskIdVar = document.getElementById("modelTaskId").value;
+      var userId = document.getElementById("modelTaskOwner").value;
+      var date = document.getElementById("modelTaskDate").value;
+      var title = document.getElementById("modelTaskTitle").value;
+      var description = document.getElementById("modelTaskDesc").value;
+      var status = document.getElementById("modelTaskStatus").value;
+      var priority = document.getElementById("modelTaskPriority").value;
+      var reminder = document.getElementById("modelTaskCompleteBy").value;
+
+      var data = {
+        "taskId": taskIdVar,
+        "userId": userId,
+        "date": date,
+        "taskTitle": title,
+        "taskDesc": description,
+        "status": status,
+        "priority": priority,
+        "reminder": reminder
+      };
+      console.log(data);
+      fetch('http://127.0.0.1:8888/task/userttask', {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: new Headers({
+          'Content-Type': 'application/json'
+        })
+      })
+        .then(res => (res.json()))
+        .then(data => {
+          console.log(data);
+        })
+    })
 
         var modal = document.getElementById("myModal");
         // Get the <span> element that closes the modal
@@ -116,8 +157,20 @@
                     displaytaskwrapper.innerHTML="";
                     for (let i = 0; i < taskDetails.length; i++) {
                         alert(taskDetails[i].taskTitle);
+                        
                         var divTaskRow = document.createElement("div")
                         divTaskRow.className = "taskrow";
+                        //task id
+                        var spanTaskIdNumber = document.createElement("span");
+                        var inputTaskIdNumber = document.createElement("input")
+                        inputTaskIdNumber.setAttribute("type", "text");
+                        inputTaskIdNumber.setAttribute("class", taskDetails[i]._id);
+                        inputTaskIdNumber.setAttribute("id", taskDetails[i]._id+"-id");
+                        inputTaskIdNumber.value = taskDetails[i]._id;
+                        spanTaskIdNumber.appendChild(inputTaskIdNumber);
+                        divTaskRow.appendChild(spanTaskIdNumber);
+
+                        
                         //task title
                         var spanTaskTitle = document.createElement("span");
                         var inputTaskTitle = document.createElement("input")
@@ -133,6 +186,7 @@
                         var inputTaskDesc = document.createElement("input")
                         inputTaskDesc.setAttribute("type", "text");
                         inputTaskDesc.setAttribute("class", taskDetails[i]._id);
+                        inputTaskDesc.setAttribute("id", taskDetails[i]._id+"-desc");
                         inputTaskDesc.value = taskDetails[i].taskDesc;
                         spanTaskDesc.appendChild(inputTaskDesc);
                         divTaskRow.appendChild(spanTaskDesc);
@@ -142,6 +196,7 @@
                         var inputDate = document.createElement("input")
                         inputDate.setAttribute("type", "text");
                         inputDate.setAttribute("class", taskDetails[i]._id);
+                        inputDate.setAttribute("id", taskDetails[i]._id+"-date");
                         inputDate.value = taskDetails[i].date;
                         spanDate.appendChild(inputDate);
                         divTaskRow.appendChild(spanDate);
@@ -151,6 +206,7 @@
                         var inputUserId = document.createElement("input")
                         inputUserId.setAttribute("type", "text");
                         inputUserId.setAttribute("class", taskDetails[i]._id);
+                        inputUserId.setAttribute("id", taskDetails[i]._id+"-user");
                         inputUserId.value = taskDetails[i].userId;
                         spanUserId.appendChild(inputUserId);
                         divTaskRow.appendChild(spanUserId);
@@ -160,6 +216,7 @@
                         var inputStatus = document.createElement("input")
                         inputStatus.setAttribute("type", "text");
                         inputStatus.setAttribute("class", taskDetails[i]._id);
+                        inputStatus.setAttribute("id", taskDetails[i]._id+"-status");
                         inputStatus.value = taskDetails[i].status;
                         spanStatus.appendChild(inputStatus);
                         divTaskRow.appendChild(spanStatus);
@@ -169,6 +226,7 @@
                         var inputPriority = document.createElement("input")
                         inputPriority.setAttribute("type", "text");
                         inputPriority.setAttribute("class", taskDetails[i]._id);
+                        inputPriority.setAttribute("id", taskDetails[i]._id+"-priority");
                         inputPriority.value = taskDetails[i].priority;
                         spanPriority.appendChild(inputPriority);
                         divTaskRow.appendChild(spanPriority);
@@ -178,6 +236,7 @@
                         var inputCompleteBy = document.createElement("input")
                         inputCompleteBy.setAttribute("type", "text");
                         inputCompleteBy.setAttribute("class", taskDetails[i]._id);
+                        inputCompleteBy.setAttribute("id", taskDetails[i]._id+"-reminder");
                         inputCompleteBy.value = taskDetails[i].reminder;
                         spanCompleteBy.appendChild(inputCompleteBy);
                         divTaskRow.appendChild(spanCompleteBy);
@@ -189,9 +248,8 @@
                         btnView.setAttribute("class", "fa fa-eye", "viewAndEdit");
                         inputCompleteBy.setAttribute("class", taskDetails[i]._id);
                         btnView.setAttribute("text", "viewAndEdit");
-                        btnView.setAttribute("onclick","displayModel()")
+                        btnView.setAttribute("onclick","displayModel('"+taskDetails[i]._id+"')")
                         btnView.setAttribute("id", "viewIcon");
-
                         btnView.value = "View"
                         spanView.appendChild(btnView);
                         divTaskRow.appendChild(spanView);
@@ -239,8 +297,16 @@
 
 
         //////////////////////////////
-      function displayModel(){
+      function displayModel(taskid){
         modal.style.display = "block";
+        document.getElementById("modelTaskId").value = document.getElementById(taskid+"-id").value;
+        document.getElementById("modelTaskTitle").value = document.getElementById(taskid+"-title").value;
+        document.getElementById("modelTaskDesc").value = document.getElementById(taskid+"-desc").value;
+        document.getElementById("modelTaskDate").value = document.getElementById(taskid+"-date").value;
+        document.getElementById("modelTaskOwner").value = document.getElementById(taskid+"-user").value;
+        document.getElementById("modelTaskStatus").value = document.getElementById(taskid+"-status").value;
+        document.getElementById("modelTaskPriority").value = document.getElementById(taskid+"-priority").value;
+        document.getElementById("modelTaskCompleteBy").value = document.getElementById(taskid+"-reminder").value;
       }
       // When the user clicks on <span> (x), close the modal
         spanClose.onclick = function () {
