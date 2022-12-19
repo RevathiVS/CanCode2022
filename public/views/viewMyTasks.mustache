@@ -2,34 +2,34 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-        content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../css/skelton/normalize.css">
-    <link rel="stylesheet" href="../css/skelton/skeleton.css">
-    <link rel="stylesheet" href="../css/viewTaskPage.css">
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/skelton/normalize.css">
+  <link rel="stylesheet" href="../css/skelton/skeleton.css">
+  <link rel="stylesheet" href="../css/viewTaskPage.css">
 </head>
 
 <body>
-    <form id="myDIV" class="header">
-        <h2>What's my task?</h2>
-        <div>
-            <span id="userDrpDwn">
-                <select id="myUserId" class="userInput" name="myUser" onchange="populateTaskDetailsByUserId()">
-                    <option disabled selected>Select User</option>
-                    <option value="Revathi">Revathi</option>
-                    <option value="Pradipan">Pradipan</option>
-                    <option value="Venkat">Venkat</option>
-                </select>
-                <button id="viewTaskBtn">View Tasks</button>
-            </span>
-        </div>
-    </form>
+  <form id="myDIV" class="header">
+    <h2>What's my task?</h2>
+    <div>
+      <span id="userDrpDwn">
+        <select id="myUserId" class="userInput" name="myUser" onchange="populateTaskDetailsByUserId()">
+          <option disabled selected>Select User</option>
+          <option value="Revathi">Revathi</option>
+          <option value="Pradipan">Pradipan</option>
+          <option value="Venkat">Venkat</option>
+        </select>
+        <button id="viewTaskBtn">View Tasks</button>
+      </span>
+    </div>
+  </form>
 
-    <div id="displaytaskwrapper">
-        <div class="taskrow">
-            <!--<span><input type="text" class="-taskTitle" placeholder="Title..."></span>
+  <div id="displaytaskwrapper">
+    <div class="taskrow">
+      <!--<span><input type="text" class="-taskTitle" placeholder="Title..."></span>
       <span><input type="text" class="-taskDesc" placeholder="Description"></span>
       <span><input type="date" name="" class="-date"></span>
       <span>
@@ -50,19 +50,19 @@
       <span><button id="viewIcon" class="fa fa-eye"></button></span>
       <span><button id="deleteIcon" class="fa fa-trash"></button></span> -->
 
-        </div>
     </div>
+  </div>
 
-   
 
-<!-- The Modal -->
-<div id="myModal" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <ul>
-        <li><label>Task Id: </label><input type="text" id="modelTaskId"/></li>
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <ul>
+        <li><label>Task Id: </label><input type="text" id="modelTaskId" /></li>
         <li><label>Task Title: </label><input type="text" id="modelTaskTitle"></li>
         <li><label>Task Description: </label><input type="text" id="modelTaskDesc"></li>
         <li><label>Date Added: </label><input type="text" id="modelTaskDate"></li>
@@ -70,23 +70,37 @@
             <option disabled selected>Select User</option>
             <option value="Revathi">Revathi</option>
             <option value="Pradipan">Pradipan</option>
-            <option value="Venkat">Venkat</option></select>
+            <option value="Venkat">Venkat</option>
+          </select>
         </li>
-        <li><label>Task Status: </label><input type="text" id="modelTaskStatus"></li>
-        <li><label>Priority: </label><input type="text" id="modelTaskPriority"></li>
+        <li><label>Task Status: </label><select id="modelTaskStatus">
+            <option disabled selected>Select User</option>
+            <option>Not Started</option>
+            <option>In Progress</option>
+            <option>Completed</option>
+          </select>
+          </select>
+        </li>
+        <li><label>Priority: </label><select id="modelTaskPriority">
+            <option disabled selected>Select Priority</option>
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+          </select>
+        </li>
         <li><label>Complete by: </label><input type="text" id="modelTaskCompleteBy"></li>
         <button id="saveChanges">Save</button>
-      </ul>  
+      </ul>
+    </div>
+
   </div>
 
-</div>
 
 
 
-
-    <script>
-        /*****DELETE FUNCTIONALITY*******/
-        saveChanges.addEventListener("click", function () {
+  <script>
+    /*****DELETE FUNCTIONALITY*******/
+    saveChanges.addEventListener("click", function () {
       alert("click");
       var taskIdVar = document.getElementById("modelTaskId").value;
       var userId = document.getElementById("modelTaskOwner").value;
@@ -121,210 +135,213 @@
         })
     })
 
-        var modal = document.getElementById("myModal");
-        // Get the <span> element that closes the modal
-            var spanClose = document.getElementsByClassName("close")[0];
-                   
-        function dbDeleteDoc(taskId) {
-                            console.log("entered dbDeleteDoc function");
-                            console.log(taskId);
-                            fetch('http://127.0.0.1:8888/task/deleteTaskWithId/' + taskId, {
-                                method: 'get',
-                                headers: new Headers({
-                                    'Content-Type': 'application/json'
-                                })
-                            })
+    var modal = document.getElementById("myModal");
+    // Get the <span> element that closes the modal
+    var spanClose = document.getElementsByClassName("close")[0];
 
-                        }
+    function dbDeleteDoc(taskId) {
+      console.log("entered dbDeleteDoc function");
+      console.log(taskId);
+      fetch('http://127.0.0.1:8888/task/deleteTaskWithId/' + taskId, {
+        method: 'get',
+        headers: new Headers({
+          'Content-Type': 'application/json'
+        })
+      })
+      populateTaskDetailsByUserId();
 
-         function populateTaskDetailsByUserId() {
-            //displaytaskwrapper.innerHTML = "";
-            var myUserId = document.getElementById("myUserId").value;
+    }
 
-            console.log(myUserId);
-            fetch('http://127.0.0.1:8888/task/getUserDetailsById/' + myUserId, {
-                method: 'get',
-                headers: new Headers({
-                    'Content-Type': 'application/json'
-                })
-            })
-                .then(res => (res.json()))
-                .then(data => {
+    function populateTaskDetailsByUserId() {
+      //displaytaskwrapper.innerHTML = "";
+      var myUserId = document.getElementById("myUserId").value;
 
-
-                    var taskDetails = data.data;
-                    var displaytaskwrapper = document.getElementById("displaytaskwrapper");
-                    displaytaskwrapper.innerHTML="";
-                    for (let i = 0; i < taskDetails.length; i++) {
-                        alert(taskDetails[i].taskTitle);
-                        
-                        var divTaskRow = document.createElement("div")
-                        divTaskRow.className = "taskrow";
-                        //task id
-                        var spanTaskIdNumber = document.createElement("span");
-                        var inputTaskIdNumber = document.createElement("input")
-                        inputTaskIdNumber.setAttribute("type", "text");
-                        inputTaskIdNumber.setAttribute("class", taskDetails[i]._id);
-                        inputTaskIdNumber.setAttribute("id", taskDetails[i]._id+"-id");
-                        inputTaskIdNumber.value = taskDetails[i]._id;
-                        spanTaskIdNumber.appendChild(inputTaskIdNumber);
-                        divTaskRow.appendChild(spanTaskIdNumber);
-
-                        
-                        //task title
-                        var spanTaskTitle = document.createElement("span");
-                        var inputTaskTitle = document.createElement("input")
-                        inputTaskTitle.setAttribute("type", "text");
-                        inputTaskTitle.setAttribute("class", taskDetails[i]._id);
-                        inputTaskTitle.setAttribute("id", taskDetails[i]._id+"-title");
-                        inputTaskTitle.value = taskDetails[i].taskTitle;
-                        spanTaskTitle.appendChild(inputTaskTitle);
-                        divTaskRow.appendChild(spanTaskTitle);
-
-                        //task Desc
-                        var spanTaskDesc = document.createElement("span");
-                        var inputTaskDesc = document.createElement("input")
-                        inputTaskDesc.setAttribute("type", "text");
-                        inputTaskDesc.setAttribute("class", taskDetails[i]._id);
-                        inputTaskDesc.setAttribute("id", taskDetails[i]._id+"-desc");
-                        inputTaskDesc.value = taskDetails[i].taskDesc;
-                        spanTaskDesc.appendChild(inputTaskDesc);
-                        divTaskRow.appendChild(spanTaskDesc);
-
-                        //date
-                        var spanDate = document.createElement("span");
-                        var inputDate = document.createElement("input")
-                        inputDate.setAttribute("type", "text");
-                        inputDate.setAttribute("class", taskDetails[i]._id);
-                        inputDate.setAttribute("id", taskDetails[i]._id+"-date");
-                        inputDate.value = taskDetails[i].date;
-                        spanDate.appendChild(inputDate);
-                        divTaskRow.appendChild(spanDate);
-
-                        //User
-                        var spanUserId = document.createElement("span");
-                        var inputUserId = document.createElement("input")
-                        inputUserId.setAttribute("type", "text");
-                        inputUserId.setAttribute("class", taskDetails[i]._id);
-                        inputUserId.setAttribute("id", taskDetails[i]._id+"-user");
-                        inputUserId.value = taskDetails[i].userId;
-                        spanUserId.appendChild(inputUserId);
-                        divTaskRow.appendChild(spanUserId);
-
-                        //Status
-                        var spanStatus = document.createElement("span");
-                        var inputStatus = document.createElement("input")
-                        inputStatus.setAttribute("type", "text");
-                        inputStatus.setAttribute("class", taskDetails[i]._id);
-                        inputStatus.setAttribute("id", taskDetails[i]._id+"-status");
-                        inputStatus.value = taskDetails[i].status;
-                        spanStatus.appendChild(inputStatus);
-                        divTaskRow.appendChild(spanStatus);
-
-                        //Priority
-                        var spanPriority = document.createElement("span");
-                        var inputPriority = document.createElement("input")
-                        inputPriority.setAttribute("type", "text");
-                        inputPriority.setAttribute("class", taskDetails[i]._id);
-                        inputPriority.setAttribute("id", taskDetails[i]._id+"-priority");
-                        inputPriority.value = taskDetails[i].priority;
-                        spanPriority.appendChild(inputPriority);
-                        divTaskRow.appendChild(spanPriority);
-
-                        //reminder
-                        var spanCompleteBy = document.createElement("span");
-                        var inputCompleteBy = document.createElement("input")
-                        inputCompleteBy.setAttribute("type", "text");
-                        inputCompleteBy.setAttribute("class", taskDetails[i]._id);
-                        inputCompleteBy.setAttribute("id", taskDetails[i]._id+"-reminder");
-                        inputCompleteBy.value = taskDetails[i].reminder;
-                        spanCompleteBy.appendChild(inputCompleteBy);
-                        divTaskRow.appendChild(spanCompleteBy);
-
-                        //view
-                        var spanView = document.createElement("span");
-                        var btnView = document.createElement("button");
-                        var viewtxt = document.createTextNode("viewAndEdit");
-                        btnView.setAttribute("class", "fa fa-eye", "viewAndEdit");
-                        inputCompleteBy.setAttribute("class", taskDetails[i]._id);
-                        btnView.setAttribute("text", "viewAndEdit");
-                        btnView.setAttribute("onclick","displayModel('"+taskDetails[i]._id+"')")
-                        btnView.setAttribute("id", "viewIcon");
-                        btnView.value = "View"
-                        spanView.appendChild(btnView);
-                        divTaskRow.appendChild(spanView);
-                        btnView.appendChild(viewtxt);
+      console.log(myUserId);
+      fetch('http://127.0.0.1:8888/task/getUserDetailsById/' + myUserId, {
+        method: 'get',
+        headers: new Headers({
+          'Content-Type': 'application/json'
+        })
+      })
+        .then(res => (res.json()))
+        .then(data => {
 
 
-                        //delete
-                        var spanDelete = document.createElement("span");
-                        var btnDelete = document.createElement("button");
-                        var deletetxt = document.createTextNode("Delete");
+          var taskDetails = data.data;
+          var displaytaskwrapper = document.getElementById("displaytaskwrapper");
+          displaytaskwrapper.innerHTML = "";
+          for (let i = 0; i < taskDetails.length; i++) {
+            alert(taskDetails[i].taskTitle);
 
-                        btnDelete.setAttribute("class", "fa fa-trash");
-                        console.log(taskDetails[i]._id)
-                        btnDelete.setAttribute("id", taskDetails[i]._id);
-                        btnDelete.setAttribute("Name", "Delete");
-                        btnDelete.setAttribute("onclick", "dbDeleteDoc('"+taskDetails[i]._id+"')");
-                        btnDelete.setAttribute("mongoid",taskDetails[i]._id);
-                        btnDelete.value = "Delete"
-                        spanDelete.appendChild(btnDelete);
-                        divTaskRow.appendChild(spanDelete);
-                        btnDelete.appendChild(deletetxt);
-                        displaytaskwrapper.appendChild(divTaskRow);
-                        console.log("task id = " + btnDelete.id);
+            var divTaskRow = document.createElement("div")
+            divTaskRow.className = "taskrow";
+            //task id
+            var spanTaskIdNumber = document.createElement("span");
+            var inputTaskIdNumber = document.createElement("input")
+            inputTaskIdNumber.setAttribute("type", "text");
+            inputTaskIdNumber.setAttribute("class", taskDetails[i]._id);
+            inputTaskIdNumber.setAttribute("id", taskDetails[i]._id + "-id");
+            inputTaskIdNumber.value = taskDetails[i]._id;
+            spanTaskIdNumber.appendChild(inputTaskIdNumber);
+            divTaskRow.appendChild(spanTaskIdNumber);
 
 
+            //task title
+            var spanTaskTitle = document.createElement("span");
+            var inputTaskTitle = document.createElement("input")
+            inputTaskTitle.setAttribute("type", "text");
+            inputTaskTitle.setAttribute("class", taskDetails[i]._id);
+            inputTaskTitle.setAttribute("id", taskDetails[i]._id + "-title");
+            inputTaskTitle.value = taskDetails[i].taskTitle;
+            spanTaskTitle.appendChild(inputTaskTitle);
+            divTaskRow.appendChild(spanTaskTitle);
 
+            //task Desc
+            var spanTaskDesc = document.createElement("span");
+            var inputTaskDesc = document.createElement("input")
+            inputTaskDesc.setAttribute("type", "text");
+            inputTaskDesc.setAttribute("class", taskDetails[i]._id);
+            inputTaskDesc.setAttribute("id", taskDetails[i]._id + "-desc");
+            inputTaskDesc.value = taskDetails[i].taskDesc;
+            spanTaskDesc.appendChild(inputTaskDesc);
+            divTaskRow.appendChild(spanTaskDesc);
+
+            //date
+            var spanDate = document.createElement("span");
+            var inputDate = document.createElement("input")
+            inputDate.setAttribute("type", "text");
+            inputDate.setAttribute("class", taskDetails[i]._id);
+            inputDate.setAttribute("id", taskDetails[i]._id + "-date");
+            inputDate.value = taskDetails[i].date;
+            spanDate.appendChild(inputDate);
+            divTaskRow.appendChild(spanDate);
+
+            //User
+            var spanUserId = document.createElement("span");
+            var inputUserId = document.createElement("input")
+            inputUserId.setAttribute("type", "text");
+            inputUserId.setAttribute("class", taskDetails[i]._id);
+            inputUserId.setAttribute("id", taskDetails[i]._id + "-user");
+            inputUserId.value = taskDetails[i].userId;
+            spanUserId.appendChild(inputUserId);
+            divTaskRow.appendChild(spanUserId);
+
+            //Status
+            var spanStatus = document.createElement("span");
+            var inputStatus = document.createElement("input")
+            inputStatus.setAttribute("type", "text");
+            inputStatus.setAttribute("class", taskDetails[i]._id);
+            inputStatus.setAttribute("id", taskDetails[i]._id + "-status");
+            inputStatus.value = taskDetails[i].status;
+            spanStatus.appendChild(inputStatus);
+            divTaskRow.appendChild(spanStatus);
+
+            //Priority
+            var spanPriority = document.createElement("span");
+            var inputPriority = document.createElement("input")
+            inputPriority.setAttribute("type", "text");
+            inputPriority.setAttribute("class", taskDetails[i]._id);
+            inputPriority.setAttribute("id", taskDetails[i]._id + "-priority");
+            inputPriority.value = taskDetails[i].priority;
+            spanPriority.appendChild(inputPriority);
+            divTaskRow.appendChild(spanPriority);
+
+            //reminder
+            var spanCompleteBy = document.createElement("span");
+            var inputCompleteBy = document.createElement("input")
+            inputCompleteBy.setAttribute("type", "text");
+            inputCompleteBy.setAttribute("class", taskDetails[i]._id);
+            inputCompleteBy.setAttribute("id", taskDetails[i]._id + "-reminder");
+            inputCompleteBy.value = taskDetails[i].reminder;
+            spanCompleteBy.appendChild(inputCompleteBy);
+            divTaskRow.appendChild(spanCompleteBy);
+
+            //view
+            var spanView = document.createElement("span");
+            var btnView = document.createElement("button");
+            var viewtxt = document.createTextNode("viewAndEdit");
+            btnView.setAttribute("class", "fa fa-eye", "viewAndEdit");
+            inputCompleteBy.setAttribute("class", taskDetails[i]._id);
+            btnView.setAttribute("text", "viewAndEdit");
+            btnView.setAttribute("onclick", "displayModel('" + taskDetails[i]._id + "')")
+            btnView.setAttribute("id", "viewIcon");
+            btnView.value = "View"
+            spanView.appendChild(btnView);
+            divTaskRow.appendChild(spanView);
+            btnView.appendChild(viewtxt);
+
+
+            //delete
+            var spanDelete = document.createElement("span");
+            var btnDelete = document.createElement("button");
+            var deletetxt = document.createTextNode("Delete");
+
+            btnDelete.setAttribute("class", "fa fa-trash");
+            console.log(taskDetails[i]._id)
+            btnDelete.setAttribute("id", taskDetails[i]._id);
+            btnDelete.setAttribute("Name", "Delete");
+            btnDelete.setAttribute("onclick", "dbDeleteDoc('" + taskDetails[i]._id + "')");
+            btnDelete.setAttribute("mongoid", taskDetails[i]._id);
+            btnDelete.value = "Delete"
+            spanDelete.appendChild(btnDelete);
+            divTaskRow.appendChild(spanDelete);
+            btnDelete.appendChild(deletetxt);
+            displaytaskwrapper.appendChild(divTaskRow);
+            console.log("task id = " + btnDelete.id);
 
 
 
 
-                    }
-                });
-                    
-
-                    ///////////////////////
-
-             
-
-                    
 
 
 
+          }
+        });
 
-        }
+
+      ///////////////////////
 
 
-        //////////////////////////////
-      function displayModel(taskid){
-        modal.style.display = "block";
-        document.getElementById("modelTaskId").value = document.getElementById(taskid+"-id").value;
-        document.getElementById("modelTaskTitle").value = document.getElementById(taskid+"-title").value;
-        document.getElementById("modelTaskDesc").value = document.getElementById(taskid+"-desc").value;
-        document.getElementById("modelTaskDate").value = document.getElementById(taskid+"-date").value;
-        document.getElementById("modelTaskOwner").value = document.getElementById(taskid+"-user").value;
-        document.getElementById("modelTaskStatus").value = document.getElementById(taskid+"-status").value;
-        document.getElementById("modelTaskPriority").value = document.getElementById(taskid+"-priority").value;
-        document.getElementById("modelTaskCompleteBy").value = document.getElementById(taskid+"-reminder").value;
+
+
+
+
+
+
+    }
+
+
+    //////////////////////////////
+    function displayModel(taskid) {
+      modal.style.display = "block";
+      document.getElementById("modelTaskId").value = document.getElementById(taskid + "-id").value;
+      document.getElementById("modelTaskTitle").value = document.getElementById(taskid + "-title").value;
+      document.getElementById("modelTaskDesc").value = document.getElementById(taskid + "-desc").value;
+      document.getElementById("modelTaskDate").value = document.getElementById(taskid + "-date").value;
+      document.getElementById("modelTaskOwner").value = document.getElementById(taskid + "-user").value;
+      document.getElementById("modelTaskStatus").value = document.getElementById(taskid + "-status").value;
+      document.getElementById("modelTaskPriority").value = document.getElementById(taskid + "-priority").value;
+      document.getElementById("modelTaskCompleteBy").value = document.getElementById(taskid + "-reminder").value;
+    }
+    // When the user clicks on <span> (x), close the modal
+    spanClose.onclick = function () {
+      modal.style.display = "none";
+      populateTaskDetailsByUserId();
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+        populateTaskDetailsByUserId();
       }
-      // When the user clicks on <span> (x), close the modal
-        spanClose.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
+    }
 
        /////////////////////////
 
 
 
-    </script>
+  </script>
 </body>
 
 </html>
