@@ -5,12 +5,26 @@ const mustacheExpress = require('mustache-express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
+var cron = require('node-cron');
 //
 const app = express();
 const port = 8888;
 const user = require('./routes/user');
+const notification = require('./controllers/notification');
 //
+
+
+//cron job
+ cron.schedule('* * * * *', () => {
+  console.log('running a task every minute');
+  notification.sendReminder();
+}); 
+
+cron.schedule('40 37 * * * *', () => {
+  console.log('running a task every hour');
+  notification.sendPriorityEmail('High');
+});
+
 
 //Set views folder & Templating Engine
 app.set('views',`${__dirname}/public/views`);

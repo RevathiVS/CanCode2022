@@ -127,7 +127,10 @@
     transform: translateY(4px);
   }
 
-
+  #navigateToViewTask{
+    float: left;
+    color: rgb(251, 255, 0);
+  }
 
 
   input,select{

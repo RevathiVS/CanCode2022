@@ -13,7 +13,9 @@
 
 <body>
   <form id="myDIV" class="header">
-    <h2>What's my task?</h2>
+    <a href="http://127.0.0.1:8888/task" id="navigateBack">Home</a>
+    <a href="http://127.0.0.1:8888/task/addNewTask" id="navigateToAddTask">Add Tasks</a>
+    <h2>What are my tasks?</h2>
     <div>
       <span id="userDrpDwn">
         <select id="myUserId" class="userInput" name="myUser" onchange="populateTaskDetailsByUserId()">
@@ -22,7 +24,7 @@
           <option value="Pradipan">Pradipan</option>
           <option value="Venkat">Venkat</option>
         </select>
-        <button id="viewTaskBtn">View Tasks</button>
+       <!-- <button id="viewTaskBtn">View Tasks</button> -->
       </span>
     </div>
   </form>
@@ -101,7 +103,7 @@
   <script>
     /*****DELETE FUNCTIONALITY*******/
     saveChanges.addEventListener("click", function () {
-      alert("click");
+      alert("Changes Saved");
       var taskIdVar = document.getElementById("modelTaskId").value;
       var userId = document.getElementById("modelTaskOwner").value;
       var date = document.getElementById("modelTaskDate").value;
@@ -148,6 +150,7 @@
           'Content-Type': 'application/json'
         })
       })
+      alert('Task Deleted!');
       populateTaskDetailsByUserId();
 
     }
@@ -171,7 +174,7 @@
           var displaytaskwrapper = document.getElementById("displaytaskwrapper");
           displaytaskwrapper.innerHTML = "";
           for (let i = 0; i < taskDetails.length; i++) {
-            alert(taskDetails[i].taskTitle);
+            //alert(taskDetails[i].taskTitle);
 
             var divTaskRow = document.createElement("div")
             divTaskRow.className = "taskrow";
@@ -252,9 +255,11 @@
             inputCompleteBy.setAttribute("type", "text");
             inputCompleteBy.setAttribute("class", taskDetails[i]._id);
             inputCompleteBy.setAttribute("id", taskDetails[i]._id + "-reminder");
-            inputCompleteBy.value = taskDetails[i].reminder;
+            var completebyDate = new Date(taskDetails[i].reminder).toLocaleString("en-US", {timeZone: 'Asia/Kolkata'})
+            inputCompleteBy.value = completebyDate;
             spanCompleteBy.appendChild(inputCompleteBy);
             divTaskRow.appendChild(spanCompleteBy);
+            
 
             //view
             var spanView = document.createElement("span");

@@ -91,7 +91,11 @@
   #addTaskBtn :active{
     transform: translateY(4px);
   }
-
+  
+  #navigateBack{
+    float: left;
+    color: #ffea00;
+  }
 
 
 
@@ -176,7 +180,7 @@
   text-align: center;
   position: relative;
   top: 50%;
-  left: 38%;
+  left: 43%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
@@ -228,4 +232,11 @@
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+.red-txt {
+ background-color: #f44336;
+}
+#navigateToAddTask{
+  float: right;
+  color: #ffea00;
 }

@@ -14,6 +14,7 @@
 
 <body>
   <form id="myDIV" class="header">
+    <a href="http://127.0.0.1:8888/task/viewMyTasks" id="navigateToViewTask">View Tasks</a>
     <h2>What's Up for today?</h2>
   <div>
     <select id="userId" aria-placeholder="User" class="userInput" required>
@@ -119,7 +120,7 @@
     populateTaskDetails();
     var addTaskBtn = document.getElementById("addBtn");
     addTaskBtn.addEventListener("click", function () {
-      alert("click");
+     // alert("click");
       var userId = document.getElementById("userId").value;
       var date = document.getElementById("date").value;
       var title = document.getElementById("taskTitle").value;
@@ -227,7 +228,8 @@
             var inputCompleteBy = document.createElement("input")
             inputCompleteBy.setAttribute("type","text");
             inputCompleteBy.setAttribute("class",taskDetails[i]._id);
-            inputCompleteBy.value=taskDetails[i].reminder;
+            var completebyDate = new Date(taskDetails[i].reminder).toLocaleString("en-US", {timeZone: 'Asia/Kolkata'})
+            inputCompleteBy.value = completebyDate;
             spanCompleteBy.appendChild(inputCompleteBy);
             divTaskRow.appendChild(spanCompleteBy);
 
