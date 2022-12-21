@@ -20,9 +20,19 @@ const notification = require('./controllers/notification');
   notification.sendReminder();
 }); 
 
-cron.schedule('40 37 * * * *', () => {
+cron.schedule('40 59 * * * *', () => {
   console.log('running a task every hour');
   notification.sendPriorityEmail('High');
+});
+
+cron.schedule('0 */2 * * *', () => {
+  console.log('running a task every 2nd hour');
+  notification.sendPriorityEmail('Medium');
+});
+
+cron.schedule('0 */3 * * *', () => {
+  console.log('running a task every 3rd hour');
+  notification.sendPriorityEmail('Low');
 });
 
 

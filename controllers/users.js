@@ -1,3 +1,4 @@
 module.exports = {
-    "Pradipan":"pradipantask@gmail.com"
+    "Pradipan":"pradipantask@gmail.com",
+    "Revathi":"revathitask@gmail.com"
 }

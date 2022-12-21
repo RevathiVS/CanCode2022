@@ -128,11 +128,14 @@
   }
 
   #navigateToViewTask{
-    float: left;
+    float: right;
     color: rgb(251, 255, 0);
   }
 
-
+  #navigateToHome{
+    float: left;
+    color: rgb(251, 255, 0);
+  }
   input,select{
     color: black;
   }
